@@ -1,3 +1,5 @@
+import 'package:scrypted_med_api/model/service.dart';
+
 import '../scrypted_med_api.dart';
 
 class Organization extends ManagedObject<_Organization>
@@ -53,7 +55,16 @@ class _Organization {
   String chiefPhone; //  Телефон руководителя
 
   @Column(indexed: true, nullable: true)
+  String phone; //  Примечания
+
+  @Column(indexed: true, nullable: true)
   String schedule; //  График работы
+
+  @Column(indexed: true, nullable: true)
+  String email; //
+
+  @Column(indexed: true, nullable: true)
+  String url; //
 
   @Column(indexed: true, nullable: true)
   String description; //  Примечания
@@ -65,4 +76,6 @@ class _Organization {
 
   DateTime createdAt;
   DateTime updatedAt;
+
+  ManagedSet<Service> service;
 }

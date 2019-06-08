@@ -13,13 +13,13 @@ class OrganizationController extends ResourceController {
 
   @Operation.get()
   Future<Response> getAll() async {
-    final companyList = await repository.getAllCompanyList();
-    return Response.ok(companyList);
+    final list = await repository.getAllCompanyList();
+    return Response.ok(list);
   }
 
-  @Operation.get("id")
-  Future<Response> getItemById(@Bind.path("id") int id) async {
-    final company = await repository.getCompanyById(id);
+  @Operation.get("orgId")
+  Future<Response> getItemById(@Bind.path("orgId") int orgId) async {
+    final company = await repository.getCompanyById(orgId);
 
     if (company == null) {
       return Response.notFound();
@@ -29,27 +29,29 @@ class OrganizationController extends ResourceController {
   }
 
   @Operation.post()
-  Future<Response> createItem({@Bind.body() Organization org}) async {
+  Future<Response> createItem(@Bind.body() Organization org) async {
     final newOrg = await repository.createOrganization(org);
     return Response.ok(newOrg);
   }
 
-  @Operation.put("id")
+  @Operation.put("orgId")
   Future<Response> updateItem(
-      @Bind.path("id") int orgId, @Bind.body() Organization org) async {
+      @Bind.path("orgId") int orgId, @Bind.body() Organization org) async {
     final tmpOrg = await repository.setOrganization(orgId, org);
-    if (tmpOrg == null)
+    if (tmpOrg == null) {
       return Response.notFound();
-    else
+    } else {
       return Response.ok(tmpOrg);
+    }
   }
 
-  @Operation.delete("id")
-  Future<Response> deleteItem(@Bind.path("id") int orgId) async {
+  @Operation.delete("orgId")
+  Future<Response> deleteItem(@Bind.path("orgId") int orgId) async {
     final count = await repository.deleteOrganization(orgId);
-    if (count == 0)
+    if (count == 0) {
       return Response.notFound();
-    else
+    } else {
       return Response.ok({"deleted": "$count"});
+    }
   }
 }

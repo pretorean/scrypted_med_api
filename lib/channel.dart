@@ -1,5 +1,7 @@
-import 'controller/organization_controller.dart';
-import 'model/model.dart';
+import 'package:scrypted_med_api/controller/organization_controller.dart';
+import 'package:scrypted_med_api/controller/service_controller.dart';
+import 'package:scrypted_med_api/model/model.dart';
+
 import 'scrypted_med_api.dart';
 
 /// This type initializes an application.
@@ -40,8 +42,13 @@ class ScryptedMedApiChannel extends ApplicationChannel {
 
     // компании
     router
-        .route("api/org/[:id]")
+        .route("api/org/[:orgId]")
         .link(() => OrganizationController(context));
+
+    // услуги
+    router
+        .route("api/org/:orgId/serv/[:servId]")
+        .link(() => ServiceController(context));
 
     return router;
   }
