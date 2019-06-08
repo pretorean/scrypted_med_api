@@ -1,6 +1,5 @@
 import 'package:scrypted_med_api/controller/organization_controller.dart';
 import 'package:scrypted_med_api/controller/service_controller.dart';
-import 'package:scrypted_med_api/model/model.dart';
 
 import 'scrypted_med_api.dart';
 
@@ -35,10 +34,6 @@ class ScryptedMedApiChannel extends ApplicationChannel {
   @override
   Controller get entryPoint {
     final router = Router();
-
-    router
-        .route("api/model/[:id]")
-        .link(() => ManagedObjectController<Model>(context));
 
     // компании
     router
