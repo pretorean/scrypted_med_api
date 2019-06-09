@@ -12,8 +12,9 @@ class OrganizationController extends ResourceController {
   OrganizationRepository repository;
 
   @Operation.get()
-  Future<Response> getAll() async {
-    final list = await repository.getAllCompanyList();
+  Future<Response> getAll(
+      {@Bind.query('q') String query, @Bind.query('r') int region}) async {
+    final list = await repository.getAllCompanyList(20, query, region);
     return Response.ok(list);
   }
 

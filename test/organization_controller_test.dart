@@ -15,6 +15,14 @@ Future main() async {
     expect(response, hasResponse(200, body: hasLength(2)));
   });
 
+  test("GET /org?q=", () async {
+    expectResponse(await createOrganization(harness, 'org1'), 200);
+    expectResponse(await createOrganization(harness, 'qrg'), 200);
+
+    final response = await harness.agent.get("/api/org?q=org");
+    expect(response, hasResponse(200, body: hasLength(1)));
+  });
+
   test("POST /org", () async {
     final response = await createOrganization(harness, 'OrgName');
     expect(

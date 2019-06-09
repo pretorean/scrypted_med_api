@@ -7,9 +7,29 @@ class OrganizationRepository {
 
   final ManagedContext context;
 
-  Future<List<Organization>> getAllCompanyList() async {
+  Future<List<Organization>> getAllCompanyList(
+      int count, String query, int region) async {
     final q = Query<Organization>(context)
-      ..where((i) => i.deleted).equalTo(false);
+      ..where((i) => i.deleted).equalTo(false)
+      ..fetchLimit = count;
+
+    if (region != null) {
+      q.where((i) => i.region).equalTo(region);
+    }
+
+    if (query != null && query.isNotEmpty) {
+      query.split(' ').forEach((String s) {
+        q.predicate = QueryPredicate(
+            "(name ~~ @name OR fullName ~~ @fullName OR address ~~ @address OR chiefName ~~ @chiefName)",
+            {
+              'name': '%$s%',
+              'fullName': '%$s%',
+              'address': '%$s%',
+              'chiefName': '%$s%'
+            });
+      });
+    }
+
     return q.fetch();
   }
 
