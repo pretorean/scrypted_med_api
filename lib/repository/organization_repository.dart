@@ -20,7 +20,7 @@ class OrganizationRepository {
     if (query != null && query.isNotEmpty) {
       query.split(' ').forEach((String s) {
         q.predicate = QueryPredicate(
-            "(name ~~ @name OR fullName ~~ @fullName OR address ~~ @address OR chiefName ~~ @chiefName)",
+            "(name ~~* @name OR fullName ~~* @fullName OR address ~~* @address OR chiefName ~~* @chiefName)",
             {
               'name': '%$s%',
               'fullName': '%$s%',
